@@ -5,8 +5,7 @@ This version basically stops your ped from doing the hands up animation if you a
 
 To install this script you simply need to upload the `better-handsup` file into your server's resources folder and then edit your server.cfg and add `start better-handsup`.
 
-Default Key is '__X__' and you can edit it on line 24.
-
+Default Key is '__X__' and you can edit it on line 24 as shown below by changing `X` to whatever you like better.                      ```IsControlJustPressed(1, Keys['X'])```
 
 **ALL CREDITS TO KADDAREM FOR THE SCRIPT
 https://github.com/KadDarem**
