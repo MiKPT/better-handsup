@@ -11,23 +11,43 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
+local keyPressed = false
+
 Citizen.CreateThread(function()
 	local dict = "missminuteman_1ig_2"
 
 	RequestAnimDict(dict)
 	while not HasAnimDictLoaded(dict) do
-		Citizen.Wait(100)
+		Citizen.Wait(0)
 	end
+
 	local handsup = false
+
 	while true do
-		Citizen.Wait(100)
-		if IsControlJustPressed(1, Keys['X']) and GetLastInputMethod(2) and IsPedOnFoot(PlayerPedId()) then
-			if not handsup then
-				TaskPlayAnim(PlayerPedId(), dict, "handsup_enter", 8.0, 8.0, -1, 50, 0, false, false, false)
-				handsup = true
-			else
-				handsup = false
+		Citizen.Wait(10)
+		if not keyPressed then
+		    if IsControlPressed(0, 73) and not handsup and IsPedOnFoot(PlayerPedId()) then
+			    Wait(200)
+			    if not IsControlPressed(0, 73) then
+			    	keyPressed = true
+				    TaskPlayAnim(PlayerPedId(), dict, "handsup_enter", 8.0, 8.0, -1, 50, 0, false, false, false)
+			    	handsup = true
+		    	else
+			    	keyPressed = true
+			    	while IsControlPressed(0, 73) do
+					    Wait(50)
+			    	end
+		    	end
+            elseif (IsControlPressed(0, 73) and handsup) or (not IsPedOnFoot(PlayerPedId()) and handsup) then
+				keyPressed = true
+				handsup = false				
 				ClearPedTasks(PlayerPedId())
+			end
+        end
+        
+        if keyPressed then
+			if not IsControlPressed(0, 73) then
+				keyPressed = false
 			end
 		end
 	end
